@@ -168,3 +168,30 @@ poetry run pytest --cov --cov-report html
 ```
 
 I know a goal is to aim for 100% code coverage. In my case, I've started this project with a "fail under" option of 80%. What that means is that I must have at least 80% code coverage in order for my test suite to be considered passing.
+
+With the project automation it is possible to run a single test module:
+
+```
+nox -- tests/test_quendor.py
+```
+
+## Project Automation
+
+I decided to use [Nox](https://nox.thea.codes/en/stable/) for this project even though I know there is still a lot of momentum around using [tox](https://tox.wiki/en/latest/). I like how Nox uses a standard Python file for its configuration. I also use a tool called [nox-poetry](https://pypi.org/project/nox-poetry/) which, as its name would imply, provides some nice integration with Poetry and keeps the automation tasks looking nice and clean.
+
+I do recommend installing these as "user" installs:
+
+```
+pip install --user --upgrade nox
+pip install --user --upgrade nox-poetry
+```
+
+It's worth noting that Nox recreates the virtual environments from scratch on each invocation. You can speed things up by passing the `--reuse-existing-virtualenvs` (`-r`) option. This option can also be set once in the `noxfile.py` but I find I generally prefer to follow the better practice of "fresh virtual environment" each time and only override that with the command line option when I feel the need to.
+
+You can also specify `reuse_venv=True` in a given session for Nox by including that line in the session annotation.
+
+You can always get a list of all the tasks that have been specified:
+
+```
+nox --list
+```
