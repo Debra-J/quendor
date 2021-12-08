@@ -1,2 +1,3 @@
-# quendor
-A Z-Machine Emulator and Interpreter
+# Quendor
+
+_A Z-Machine Emulator and Interpreter_
