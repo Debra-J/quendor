@@ -195,3 +195,60 @@ You can always get a list of all the tasks that have been specified:
 ```
 nox --list
 ```
+
+## Python Packages
+
+As my project started building up and, more particularly, as I started to use a code editor like VS Code, I found I had to really understand how and where Python was getting its packages from.
+
+### Listing Packages
+
+The command `pip list` will get all installed packages; `pip list --user` will only get user-installed packages.
+
+There is no way to use something like `pip list --system`. An [issue](https://github.com/pypa/pip/issues/4809) has been raised around that. That led to [another issue](https://github.com/pypa/pip/issues/5686) -- that seems of dubious relevance at all -- which in turn points to [yet another issue](https://github.com/pypa/pip/issues/4575). You can do this:
+
+```
+pip list --not-required
+```
+
+This will exclude packages that are required by another package, which does at least give you a slightly constrained list.
+
+### Finding Site Packages
+
+Global site-packages (apparently referred to as "dist-packages") directories are listed in `sys.path` when you run:
+
+```
+python -m site
+```
+
+For a more concise list run `getsitepackages` from the `site` module in Python code:
+
+```
+python -c 'import site; print(site.getsitepackages())'
+```
+
+The per user site-packages directory is where Python installs your local packages:
+
+```
+python -m site --user-site
+```
+
+Interestingly, Python currently uses [eight paths](https://docs.python.org/3/library/sysconfig.html#installation-paths). You can check any of these via a command in your operating system of choice. So for the "purelib", you can do the following:
+
+- Linux: `python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))"`
+- MacOS: `python3 -c "import sysconfig; print(sysconfig.get_path('purelib'))"`
+- Windows: `py -c "import sysconfig; print(sysconfig.get_path('purelib'))"`
+
+The function `sysconfig.get_paths()` returns a dict of all of the relevant installation paths. From the Python REPL, you can see that:
+
+```
+>>> import sysconfig
+>>> sysconfig.get_paths()
+```
+
+### Finding the Python Path
+
+You can do the following to see what the current Python path actually is.
+
+```
+python -c "import sys; print('\n'.join(sys.path))"
+```
