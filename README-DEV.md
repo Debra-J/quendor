@@ -136,3 +136,35 @@ Even removing the context of tests, the behavior of an application can change co
 So the idea is that you isolate your code into a separate – _un-importable_ – directory, which is what `src` is. This serves as a constraint. This means you will be forced to test the installed code, essentially by installing in a virtual environment. This will ensure that the deployed code works when it's packaged correctly. This means you will be very unlikely to publish a broken distribution because you are testing the code how it will be in its distributed form. This also means you will be forced to install the distribution. This will surface missing modules or broken dependencies.
 
 As part of researching all this, I came across ["Using the src layout for a Python package"](https://www.lukemiloszewski.com/blog/python-src-layout/) which further cemented my thinking to go this route.
+
+## Project Testing
+
+Certainly [pytest](https://docs.pytest.org/en/latest/) is the _de facto_ standard these days so I went with that. I wanted to use an expectations library rather than just rely on assertions so I use [expects](https://pypi.org/project/expects/) for that purpose. I also wanted the ability to provide specification output for test runs and for that I used [pytest-spec](https://pypi.org/project/pytest-spec/). Code coverage relative to the executed tests can be determined using [coverage](https://pypi.org/project/coverage/) so I include that but I also use the [pytest-cov](https://pypi.org/project/pytest-cov/) plugin. The plugin integrates coverage with pytest.
+
+All [tests are placed outside of the application code](https://doc.pytest.org/en/latest/explanation/goodpractices.html#tests-outside-application-code) and the `tests` directory is treated as a package.
+
+Basic tests can be run with:
+
+```
+poetry run pytest
+```
+
+To get the specification-based output, you can do this:
+
+```
+poetry run pytest --spec
+```
+
+To get the code coverage console report, you can do this:
+
+```
+poetry run pytest --cov
+```
+
+To generate an HTML report for the coverage, you can do this:
+
+```
+poetry run pytest --cov --cov-report html
+```
+
+I know a goal is to aim for 100% code coverage. In my case, I've started this project with a "fail under" option of 80%. What that means is that I must have at least 80% code coverage in order for my test suite to be considered passing.
