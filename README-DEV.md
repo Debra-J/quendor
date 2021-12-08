@@ -103,3 +103,22 @@ python39 -m pip install --upgrade pip
 ```
 
 You can certainly also attempt to recreate a POSIX system on Windows, such as by using Cygwin or the Windows Subsystem for Linux. That being said, I rarely found that to be a workable option in terms of sustaining development, especially since you don't really need it. I felt I wouldn't be able to count on other developers who might work on the project wanting to go through all that if they were on Windows systems,especially when my own development approach suggested all of it wasn't necessary. So I tried for a least friction path here.
+
+## Python Project Tooling
+
+Quendor will need a Python package and dependency manager. I've found [Poetry](https://python-poetry.org/) to be extremely effective in this context and it works well on POSIX systems and Windows. The one thing I specifically run in the project is the following:
+
+```
+poetry config --local virtualenvs.in-project true
+```
+
+This way the virtual machines that are created for the project are created in the project directory. They are, of course, excluded from being version controlled.
+
+Incidentally, if you need to uninstall Poetry, you can see [issue 644](https://github.com/python-poetry/poetry/issues/644) which seems to lead to [issue 2245](https://github.com/python-poetry/poetry/issues/2245).
+
+Poetry creates a pyproject.toml file, which is a type of Python package configuration file specified in [PEP 517](https://www.python.org/dev/peps/pep-0517/) and [518](https://www.python.org/dev/peps/pep-0518/). The project configuration uses the [TOML](https://github.com/toml-lang/toml) syntax. One thing to note is that in this file I set the Python version in the `tool.poetry.dependencies` section to be the _minimum_ version I intend to support:
+
+```
+[tool.poetry.dependencies]
+python = "^3.7"
+```
