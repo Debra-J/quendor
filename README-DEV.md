@@ -122,3 +122,17 @@ Poetry creates a pyproject.toml file, which is a type of Python package configur
 [tool.poetry.dependencies]
 python = "^3.7"
 ```
+
+## Project Structure
+
+### To `src` or not to `src`?
+
+Quendor will use a `src` directory.
+
+When reading up on this topic of a high-level `src` directory, I came upon ["Testing & Packaging"](https://hynek.me/articles/testing-packaging/). The idea being conveyed here is that without a `src` directory, your tests do not run against the package _as it will be installed by its users_. Those tests instead run against whatever the situation in your project directory is.
+
+Even removing the context of tests, the behavior of an application can change completely once you package and install it somewhere else. Users will be very unlikely to have the same current working directory as you do.
+
+So the idea is that you isolate your code into a separate – _un-importable_ – directory, which is what `src` is. This serves as a constraint. This means you will be forced to test the installed code, essentially by installing in a virtual environment. This will ensure that the deployed code works when it's packaged correctly. This means you will be very unlikely to publish a broken distribution because you are testing the code how it will be in its distributed form. This also means you will be forced to install the distribution. This will surface missing modules or broken dependencies.
+
+As part of researching all this, I came across ["Using the src layout for a Python package"](https://www.lukemiloszewski.com/blog/python-src-layout/) which further cemented my thinking to go this route.
