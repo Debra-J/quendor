@@ -1,4 +1,4 @@
-# Development Notes
+# Quendor Development Notes
 
 This document is entirely dedicated to me learning the Python ecosystem and documenting some of the logistics of developing this project in that ecosystem. These are more notes to myself about what I learned rather than anything that someone else needs to worry about.
 
@@ -185,6 +185,8 @@ I do recommend installing these as "user" installs:
 pip install --user --upgrade nox
 pip install --user --upgrade nox-poetry
 ```
+
+Using nox-poetry forces a reliance on [constraints files](https://pip.pypa.io/en/stable/user_guide/#constraints-files). These are created by using Poetry's ability to [export](https://python-poetry.org/docs/cli/#export). What this lets you do is use Poetry to manage all the various tools as development dependencies. So you can intall individual packages with `session.install` but then use the `poetry.lock` file to constrain their versions. This is what makes the build and testing process deterministic and repeatable.
 
 It's worth noting that Nox recreates the virtual environments from scratch on each invocation. You can speed things up by passing the `--reuse-existing-virtualenvs` (`-r`) option. This option can also be set once in the `noxfile.py` but I find I generally prefer to follow the better practice of "fresh virtual environment" each time and only override that with the command line option when I feel the need to.
 
