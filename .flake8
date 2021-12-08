@@ -1,5 +1,5 @@
 [flake8]
-select = C,E,F,W
+select = BLK,C,E,F,W
 show-source = True
 statistics = True
 
