@@ -224,6 +224,16 @@ Using [flake8-html](https://pypi.org/project/flake8-html/) allows you to generat
 
 I'm using [Black](https://pypi.org/project/black/) for this mainly because it's largely considered "uncompromising" and thus doesn't have a lot of configurability to work with. While formatting can be handled entirely separately from linting, I do feel that formatting is part of code quality. Thus I do use the [flake8-black](https://pypi.org/project/flake8-black/) plugin, which will effectively linter warnings if it detects that the Black formatter would have to make changes.
 
+## Git Hooks
+
+I'm using [pre-commit](https://pre-commit.com/) for this. It's generally best to install this similarly to Nox:
+
+```
+pip install --user --upgrade pre-commit
+```
+
+As part of the `.pre-commit-config.yaml` file, I use [repository-local hooks](https://pre-commit.com/#repository-local-hooks). This lets me run the tooling in the development environment that's created by Poetry and thus Poetry is left with the task of managing dependencies. This would be as opposed to putting specific "rev" numbers in for the given hooks.
+
 ## Python Packages
 
 As my project started building up and, more particularly, as I started to use a code editor like VS Code, I found I had to really understand how and where Python was getting its packages from.
