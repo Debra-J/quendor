@@ -196,6 +196,28 @@ You can always get a list of all the tasks that have been specified:
 nox --list
 ```
 
+## Project Code Quality
+
+I'm using [flake8](https://pypi.org/project/flake8/) for this project. This kind of tools is an aggregator that brings together various linters and executes them. Each linter provides certain error codes. Out-of-the box you get the following linters:
+
+* [pyflakes](https://pypi.org/project/pyflakes/); generates F codes
+* [pycodestyle](https://pypi.org/project/pycodestyle/); generates W (warning) and E (error) codes; uses [PEP 8](https://www.python.org/dev/peps/pep-0008/)
+* [mccabe](https://pypi.org/project/mccabe/); generates C codes
+
+Using [flake8-codes](https://pypi.org/project/flake8-codes/) is a handy way to list out a lot of the codes that are generated.
+
+```
+poetry run python -m flake8_codes W
+```
+
+The flake8 tool is one that has consistently not moved to using the pyproject.toml for its configuration settings, even as an option. (See [issue 234](https://github.com/PyCQA/flake8/issues/234)). There are ways to do it but it seems easier to just use the `.flake8` file as part of the project and that's what I do here.
+
+As of flake8 3.0, the `--select` option is a whitelist; this means checks not listed are being implicitly disabled. So if you use the option at all, then you have to explicitly specify all checks you want enabled.
+
+There is something called [extend-select](https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-extend-select) but I haven't found that it's necessarily any better to provide extended selection than it is to just include all codes and selectively exclude specific codes when desired.
+
+Using [flake8-html](https://pypi.org/project/flake8-html/) allows you to generate some nice HTML reporting.
+
 ## Python Packages
 
 As my project started building up and, more particularly, as I started to use a code editor like VS Code, I found I had to really understand how and where Python was getting its packages from.
