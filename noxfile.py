@@ -5,7 +5,7 @@ from nox_poetry import Session, session
 
 nox.options.stop_on_first_error = True
 nox.options.error_on_external_run = True
-nox.options.sessions = "formatting", "linting", "testing"
+nox.options.sessions = "formatting", "linting", "typechecking", "testing"
 
 python_versions = ["3.10", "3.9", "3.8", "3.7"]
 locations = "src", "tests", "noxfile.py"
@@ -100,3 +100,12 @@ def safety(session: Session) -> None:
     requirements = session.poetry.export_requirements()
     session.install("safety")
     session.run("safety", "check", "--full-report", f"--file={requirements}")
+
+
+@session
+def typechecking(session: Session) -> None:
+    """Run type checks (using mypy)."""
+
+    args = session.posargs or locations
+    session.install("mypy")
+    session.run("mypy", "--install-types", "--non-interactive", *args)

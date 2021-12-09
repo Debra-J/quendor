@@ -203,6 +203,8 @@ nox --list
 
 ## Project Code Quality
 
+For static type checking, I'm using the [mypy](http://mypy-lang.org/) tool, which seems to be largely the standard. In using this, I've set it up to install all suggested stub packages automatically if any particular dependencies provide typing support packages.
+
 I'm using [flake8](https://pypi.org/project/flake8/) for this project. This kind of tools is an aggregator that brings together various linters and executes them. Each linter provides certain error codes. Out-of-the box you get the following linters:
 
 - [pyflakes](https://pypi.org/project/pyflakes/); generates F codes
