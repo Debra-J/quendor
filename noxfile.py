@@ -91,3 +91,12 @@ def formatting(session: Session) -> None:
     args = session.posargs or locations
     session.install("black")
     session.run("black", *args)
+
+
+@session
+def safety(session: Session) -> None:
+    """Run security checks (using safety)."""
+
+    requirements = session.poetry.export_requirements()
+    session.install("safety")
+    session.run("safety", "check", "--full-report", f"--file={requirements}")

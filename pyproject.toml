@@ -86,6 +86,7 @@ flake8-variables-names = "^0.0.4"
 autoflake = "^1.4"
 darglint = "^1.8.1"
 pep8-naming = "^0.12.1"
+safety = "^1.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
