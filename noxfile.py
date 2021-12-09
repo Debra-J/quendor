@@ -109,3 +109,75 @@ def safety(session: Session) -> None:
     requirements = session.poetry.export_requirements()
     session.install("safety")
     session.run("safety", "check", "--full-report", f"--file={requirements}")
+
+
+@session
+def cleanup(session: Session) -> None:
+    """Clean up generated files and directories."""
+
+    session.run(
+        "python",
+        "-c",
+        "import os; os.remove('.coverage') if os.path.exists('.coverage') else None",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./dist', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./htmllint', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./htmlcov', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./.mypy_cache', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./.pytest_cache', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        (
+            "import pathlib; "
+            "[p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') "
+            "if not str(p).startswith('.nox')]",
+        ),
+    )
+
+    session.run(
+        "python",
+        "-c",
+        (
+            "import pathlib; "
+            "[p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') "
+            "if not str(p).startswith('.nox')]"
+        ),
+    )
+
+
+@session
+def clean_nox_vm(session: Session) -> None:
+    """Clean up generated Nox virtual environments."""
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./.nox', ignore_errors=True)",
+    )
