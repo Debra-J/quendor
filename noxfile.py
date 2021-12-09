@@ -71,6 +71,24 @@ def linting(session: Session) -> None:
 
 
 @session
+def formatting(session: Session) -> None:
+    """Run formatter (using black)."""
+
+    args = session.posargs or locations
+    session.install("black")
+    session.run("black", *args)
+
+
+@session
+def typechecking(session: Session) -> None:
+    """Run type checks (using mypy)."""
+
+    args = session.posargs or locations
+    session.install("mypy")
+    session.run("mypy", "--install-types", "--non-interactive", *args)
+
+
+@session
 def lintreport(session: Session) -> Session:
     """Generate linting HTML report."""
 
@@ -85,27 +103,9 @@ def lintreport(session: Session) -> Session:
 
 
 @session
-def formatting(session: Session) -> None:
-    """Run formatter (using black)."""
-
-    args = session.posargs or locations
-    session.install("black")
-    session.run("black", *args)
-
-
-@session
 def safety(session: Session) -> None:
     """Run security checks (using safety)."""
 
     requirements = session.poetry.export_requirements()
     session.install("safety")
     session.run("safety", "check", "--full-report", f"--file={requirements}")
-
-
-@session
-def typechecking(session: Session) -> None:
-    """Run type checks (using mypy)."""
-
-    args = session.posargs or locations
-    session.install("mypy")
-    session.run("mypy", "--install-types", "--non-interactive", *args)
