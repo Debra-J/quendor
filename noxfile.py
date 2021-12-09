@@ -1,3 +1,5 @@
+"""Provide executable sessions for project automation."""
+
 import nox
 from nox_poetry import Session, session
 
@@ -23,7 +25,48 @@ def linting(session: Session) -> None:
     """Run linting checks (using flake8)."""
 
     args = session.posargs or locations
-    session.install("flake8", "flake8-black")
+    session.install(
+        "autoflake",
+        "darglint",
+        "flake8",
+        "flake8-2020",
+        "flake8-alphabetize",
+        "flake8-annotations",
+        "flake8-annotations-complexity",
+        "flake8-annotations-coverage",
+        "flake8-bandit",
+        "flake8-black",
+        "flake8-broken-line",
+        "flake8-bugbear",
+        "flake8-builtins",
+        "flake8-coding",
+        "flake8-cognitive-complexity",
+        "flake8-commas",
+        "flake8-comprehensions",
+        "flake8-eradicate",
+        "flake8-expression-complexity",
+        "flake8-docstrings",
+        "flake8-functions",
+        "flake8-multiline-containers",
+        "flake8-mutable",
+        "flake8-printf-formatting",
+        "flake8-pytest-style",
+        "flake8-quotes",
+        "flake8-return",
+        "flake8-simplify",
+        "flake8-string-format",
+        "flake8-use-fstring",
+        "flake8-variables-names",
+        "pep8-naming",
+    )
+    session.run(
+        "autoflake",
+        "--recursive",
+        "--in-place",
+        "--remove-all-unused-imports",
+        "--remove-unused-variables",
+        "src/quendor/",
+    )
     session.run("flake8", *args)
 
 

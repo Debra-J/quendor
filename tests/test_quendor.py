@@ -1,3 +1,5 @@
+"""Generic tests for Quendor execution."""
+
 from expects import equal, expect
 
 

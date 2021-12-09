@@ -80,14 +80,17 @@ For each Python directory that was created here, you can do the following:
 Then you'll want to edit your Environment Variables. Select "Path" in the "User Variables" section and make sure the following are in place in whatever order you want the Python versions to be:
 
 - Python 3.10:
+
   - `%USERPROFILE%\appdata\local\programs\python\python310\scripts\`
   - `%USERPROFILE%\appdata\local\programs\python\python310\`
 
 - Python 3.9:
+
   - `%USERPROFILE%\appdata\local\programs\python\python39\scripts\`
   - `%USERPROFILE%\appdata\local\programs\python\python39\`
 
 - Python 3.8:
+
   - `%USERPROFILE%\appdata\local\programs\python\python38\scripts\`
   - `%USERPROFILE%\appdata\local\programs\python\python38\`
 
@@ -202,9 +205,9 @@ nox --list
 
 I'm using [flake8](https://pypi.org/project/flake8/) for this project. This kind of tools is an aggregator that brings together various linters and executes them. Each linter provides certain error codes. Out-of-the box you get the following linters:
 
-* [pyflakes](https://pypi.org/project/pyflakes/); generates F codes
-* [pycodestyle](https://pypi.org/project/pycodestyle/); generates W (warning) and E (error) codes; uses [PEP 8](https://www.python.org/dev/peps/pep-0008/)
-* [mccabe](https://pypi.org/project/mccabe/); generates C codes
+- [pyflakes](https://pypi.org/project/pyflakes/); generates F codes
+- [pycodestyle](https://pypi.org/project/pycodestyle/); generates W (warning) and E (error) codes; uses [PEP 8](https://www.python.org/dev/peps/pep-0008/)
+- [mccabe](https://pypi.org/project/mccabe/); generates C codes
 
 Using [flake8-codes](https://pypi.org/project/flake8-codes/) is a handy way to list out a lot of the codes that are generated.
 
@@ -218,11 +221,49 @@ As of flake8 3.0, the `--select` option is a whitelist; this means checks not li
 
 There is something called [extend-select](https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-extend-select) but I haven't found that it's necessarily any better to provide extended selection than it is to just include all codes and selectively exclude specific codes when desired.
 
+The `pycodestyle` plugin has a bunch of warnings that are disabled by default. Those get enabled as soon as there is an `ignore =` line in your configuration. The [current configuration documentation](https://pycodestyle.pycqa.org/en/latest/intro.html#configuration) delineates which are disabled by default and why.
+
 Using [flake8-html](https://pypi.org/project/flake8-html/) allows you to generate some nice HTML reporting.
+
+There are a lot of [useful extensions](https://github.com/DmytroLitvinov/awesome-flake8-extensions) for flake8. Here I'll call out the ones I use and the codes they generate.
+
+- [https://pypi.org/project/flake8-2020/](https://pypi.org/project/flake8-2020/) (YTT)
+- [https://pypi.org/project/flake8-alphabetize/](https://pypi.org/project/flake8-alphabetize/) (AZ)
+- [https://pypi.org/project/flake8-annotations/](https://pypi.org/project/flake8-annotations/) (ANN)
+- [https://pypi.org/project/flake8-annotations-complexity/](https://pypi.org/project/flake8-annotations-complexity/) (TAE)
+- [https://pypi.org/project/flake8-annotations-coverage/](https://pypi.org/project/flake8-annotations-coverage/) (TAE)
+- [https://pypi.org/project/flake8-bandit/](https://pypi.org/project/flake8-bandit/) (S)
+- [https://pypi.org/project/flake8-broken-line/](https://pypi.org/project/flake8-broken-line/) (N4)
+- [https://pypi.org/project/flake8-bugbear/](https://pypi.org/project/flake8-bugbear/) (B, B9)
+- [https://pypi.org/project/flake8-builtins/](https://pypi.org/project/flake8-builtins/) (A)
+- [https://pypi.org/project/flake8-coding/](https://pypi.org/project/flake8-coding/) (C1)
+- [https://pypi.org/project/flake8-cognitive-complexity/](https://pypi.org/project/flake8-cognitive-complexity/) (CCR)
+- [https://pypi.org/project/flake8-commas/](https://pypi.org/project/flake8-commas/) (C8)
+- [https://pypi.org/project/flake8-comprehensions/](https://pypi.org/project/flake8-comprehensions/) (C4)
+- [https://pypi.org/project/flake8-docstrings/](https://pypi.org/project/flake8-docstrings/) (D)
+- [https://pypi.org/project/flake8-eradicate/](https://pypi.org/project/flake8-eradicate/) (E8)
+- [https://pypi.org/project/flake8-expression-complexity/](https://pypi.org/project/flake8-expression-complexity/) (ECE)
+- [https://pypi.org/project/flake8-functions/](https://pypi.org/project/flake8-functions/) (CFQ)
+- [https://pypi.org/project/flake8-multiline-containers/](https://pypi.org/project/flake8-multiline-containers/) (JS)
+- [https://pypi.org/project/flake8-mutable/](https://pypi.org/project/flake8-mutable/) (M)
+- [https://pypi.org/project/flake8-printf-formatting/](https://pypi.org/project/flake8-printf-formatting/) (MOD)
+- [https://pypi.org/project/flake8-pytest-style/](https://pypi.org/project/flake8-pytest-style/) (PT)
+- [https://pypi.org/project/flake8-quotes/](https://pypi.org/project/flake8-quotes/) (Q)
+- [https://pypi.org/project/flake8-return/](https://pypi.org/project/flake8-return/) (R)
+- [https://pypi.org/project/flake8-simplify/](https://pypi.org/project/flake8-simplify/) (SIM)
+- [https://pypi.org/project/flake8-string-format/](https://pypi.org/project/flake8-string-format/) (P)
+- [https://pypi.org/project/flake8-use-fstring/](https://pypi.org/project/flake8-use-fstring/) (FS)
+- [https://pypi.org/project/flake8-variables-names/](https://pypi.org/project/flake8-variables-names/) (VNE)
+
+Some other linters I brought in:
+
+- [https://pypi.org/project/autoflake/](https://pypi.org/project/autoflake/)
+- [https://pypi.org/project/darglint/](https://pypi.org/project/darglint/) (DAR)
+- [https://pypi.org/project/pep8-naming/](https://pypi.org/project/pep8-naming/) (N8)
 
 ## Project Code Formatting
 
-I'm using [Black](https://pypi.org/project/black/) for this mainly because it's largely considered "uncompromising" and thus doesn't have a lot of configurability to work with. While formatting can be handled entirely separately from linting, I do feel that formatting is part of code quality. Thus I do use the [flake8-black](https://pypi.org/project/flake8-black/) plugin, which will effectively linter warnings if it detects that the Black formatter would have to make changes.
+I'm using [Black](https://pypi.org/project/black/) for this mainly because it's largely considered "uncompromising" and thus doesn't have a lot of configurability to work with. While formatting can be handled entirely separately from linting, I do feel that formatting is part of code quality. Thus I do use the [flake8-black](https://pypi.org/project/flake8-black/) plugin, which uses code BLK. This pluign will effectively generate linter warnings if it detects that the Black formatter would have to make changes.
 
 ## Git Hooks
 

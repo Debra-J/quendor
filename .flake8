@@ -1,7 +1,21 @@
 [flake8]
-select = BLK,C,E,F,W
+select = A,ANN,AZ,B,B9,BLK,C,C1,C4,C8,CCR,CFQ,D,DAR,E,E8,ECE,F,FS,JS,M,MOD,N4,N8,P,PT,Q,R,S,SIM,TAE,VNE,W,YTT
+application-names = quendor,tests
+docstring-convention = google
+no-accept-encodings = True
+inline-quotes = double
+max-line-length = 90
+strictness = short
 show-source = True
 statistics = True
 
 htmldir = htmllint
 htmltitle = Quendor Lint Report
+
+per-file-ignores =
+    # Missing docstring in public package
+    */__init__.py:D104
+
+ignore =
+    # No blank lines allowed after function doctring.
+    D202
