@@ -15,7 +15,7 @@ locations = "src", "tests", "noxfile.py"
 def testing(session: Session) -> None:
     """Run the test suite (using pytest)."""
 
-    args = session.posargs or ["--cov"]
+    args = session.posargs or ["--cov", "--spec"]
     session.install("pytest", "pytest-cov", "pytest-spec", "expects", ".")
     session.run("pytest", *args)
 
