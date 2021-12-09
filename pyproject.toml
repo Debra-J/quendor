@@ -23,6 +23,9 @@ classifiers = [
     "Intended Audience :: End Users/Desktop",
     "Topic :: Games/Entertainment"]
 
+[tool.poetry.scripts]
+quendor = "quendor.__main__:main"
+
 [tool.pytest.ini_options]
 spec_test_format = "{result} {docstring_summary}"
 
@@ -37,6 +40,7 @@ dynamic_context = "test_function"
 [tool.coverage.report]
 show_missing = true
 fail_under = 80
+exclude_lines = ["if __name__ == .__main__.:"]
 
 [tool.coverage.html]
 show_contexts = true
@@ -45,7 +49,7 @@ title = "Quendor Test Coverage"
 [tool.mypy]
 
 [[tool.mypy.overrides]]
-module = "nox.*,nox_poetry.*,expects.*"
+module = "nox.*,nox_poetry.*,expects.*,pytest.*"
 ignore_missing_imports = true
 
 [tool.poetry.dependencies]
