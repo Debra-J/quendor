@@ -29,6 +29,7 @@ def linting(session: Session) -> None:
         "autoflake",
         "darglint",
         "flake8",
+        "flake8-html",
         "flake8-2020",
         "flake8-alphabetize",
         "flake8-annotations",
@@ -67,7 +68,7 @@ def linting(session: Session) -> None:
         "--remove-unused-variables",
         "src/quendor/",
     )
-    session.run("flake8", *args)
+    session.run("flake8", "--format=html", *args)
 
 
 @session
@@ -86,20 +87,6 @@ def typechecking(session: Session) -> None:
     args = session.posargs or locations
     session.install("mypy")
     session.run("mypy", "--install-types", "--non-interactive", *args)
-
-
-@session
-def lintreport(session: Session) -> Session:
-    """Generate linting HTML report."""
-
-    list_locations = list(locations)
-    list_locations.insert(0, "--format=html")
-
-    session.posargs = tuple(list_locations)
-
-    session.install("flake8-html")
-
-    linting(session)
 
 
 @session
@@ -158,7 +145,7 @@ def cleanup(session: Session) -> None:
             "import pathlib; "
             "[p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') "
             "if not str(p).startswith('.nox')]",
-        ),
+        ),  # type: ignore
     )
 
     session.run(
@@ -168,7 +155,7 @@ def cleanup(session: Session) -> None:
             "import pathlib; "
             "[p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') "
             "if not str(p).startswith('.nox')]"
-        ),
+        ),  # type: ignore
     )
 
 
