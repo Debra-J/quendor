@@ -1,5 +1,6 @@
 """Generic tests for Quendor execution."""
 
+import os
 import sys
 from unittest import mock
 
@@ -21,12 +22,14 @@ def test_quendor_startup_banner(capsys: pytest.CaptureFixture) -> None:
 
     from quendor.__main__ import main
 
+    file_path = os.path.join(os.path.dirname(__file__), "./fixtures", "test_program.z5")
+
     with mock.patch.object(
         sys,
         "argv",
         [""],
     ):
-        main()
+        main([file_path])
 
     captured = capsys.readouterr()
     result = captured.out
@@ -74,14 +77,37 @@ def test_debug_logging(capsys: pytest.CaptureFixture) -> None:
 
     from quendor.__main__ import main
 
+    file_path = os.path.join(os.path.dirname(__file__), "./fixtures", "test_program.z5")
+
     with mock.patch.object(
         sys,
         "argv",
         [""],
     ):
-        main(["-d"])
+        main([file_path, "-d"])
 
     captured = capsys.readouterr()
     result = captured.err
 
     expect(result).to(contain("Parsed arguments:"))
+
+
+def test_startup_no_zcode(capsys: pytest.CaptureFixture) -> None:
+    """Quendor must be started with a zcode program specified."""
+
+    from quendor.__main__ import main
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e, mock.patch.object(
+        sys,
+        "argv",
+        [""],
+    ):
+        main()
+
+    expect(pytest_wrapped_e.type).to(equal(SystemExit))
+    expect(pytest_wrapped_e.value.code).to(equal(2))
+
+    captured = capsys.readouterr()
+    result = captured.err
+
+    expect(result).to(contain("the following arguments are required: zcode"))

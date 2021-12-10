@@ -37,6 +37,13 @@ def process_options(args: list) -> dict:
     )
 
     parser.add_argument(
+        "zcode",
+        action="store",
+        type=str,
+        help="z-code program to load",
+    )
+
+    parser.add_argument(
         "-d",
         "--debug",
         action="store_const",
