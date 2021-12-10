@@ -67,3 +67,21 @@ def test_quendor_cli_version(capsys: pytest.CaptureFixture) -> None:
     result = captured.out
 
     expect(result).to(contain(f"Version: {quendor.__version__}"))
+
+
+def test_debug_logging(capsys: pytest.CaptureFixture) -> None:
+    """Quendor can display debug log information."""
+
+    from quendor.__main__ import main
+
+    with mock.patch.object(
+        sys,
+        "argv",
+        [""],
+    ):
+        main(["-d"])
+
+    captured = capsys.readouterr()
+    result = captured.err
+
+    expect(result).to(contain("Parsed arguments:"))

@@ -2,7 +2,10 @@
 
 import sys
 
+from logzero import logger
+
 from quendor.cli import process_options
+from quendor.logging import setup_logging
 
 
 def main(args: list = None) -> int:
@@ -20,6 +23,15 @@ def main(args: list = None) -> int:
     if not args:
         args = sys.argv[1:]
 
-    process_options(args)
+    cli = process_options(args)
+
+    setup_logging(cli["loglevel"])
+
+    logger.debug(f"Argument count: {'':>4}" + str(len(args)))
+
+    for i, arg in enumerate(args):
+        logger.debug(f"Argument {i}: {'':>8}" + arg)
+
+    logger.debug(f"Parsed arguments: {'':>2}" + f"{cli}")
 
     return 0

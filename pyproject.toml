@@ -49,11 +49,12 @@ title = "Quendor Test Coverage"
 [tool.mypy]
 
 [[tool.mypy.overrides]]
-module = "nox.*,nox_poetry.*,expects.*,pytest.*"
+module = "nox.*,nox_poetry.*,expects.*,pytest.*,logzero.*"
 ignore_missing_imports = true
 
 [tool.poetry.dependencies]
 python = "^3.7"
+logzero = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"

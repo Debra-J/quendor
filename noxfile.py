@@ -67,6 +67,7 @@ def linting(session: Session) -> None:
         "--remove-all-unused-imports",
         "--remove-unused-variables",
         "src/quendor/",
+        "tests/",
     )
     session.run("flake8", "--format=html", *args)
 

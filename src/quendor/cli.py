@@ -4,6 +4,8 @@ import argparse
 import sys
 import textwrap
 
+import logzero
+
 from quendor import __version__
 
 
@@ -32,6 +34,24 @@ def process_options(args: list) -> dict:
         prog="quendor",
         description="Execute a z-code program on the Z-Machine",
         epilog=textwrap.dedent("""Enjoy your visit to Quendor!"""),
+    )
+
+    parser.add_argument(
+        "-d",
+        "--debug",
+        action="store_const",
+        dest="loglevel",
+        const=logzero.DEBUG,
+        help="print debug logging",
+    )
+
+    parser.add_argument(
+        "-i",
+        "--info",
+        action="store_const",
+        dest="loglevel",
+        const=logzero.INFO,
+        help="print informative logging",
     )
 
     parser.add_argument(
