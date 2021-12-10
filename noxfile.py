@@ -8,7 +8,7 @@ nox.options.error_on_external_run = True
 nox.options.sessions = "formatting", "linting", "typechecking", "testing"
 
 python_versions = ["3.10", "3.9", "3.8", "3.7"]
-locations = "src", "tests", "noxfile.py"
+locations = "src", "tests", "noxfile.py", "docs/conf.py"
 
 
 @session(python=python_versions)
@@ -100,6 +100,14 @@ def safety(session: Session) -> None:
 
 
 @session
+def documenting(session: Session) -> None:
+    """Run the documentation generator (using Sphinx)."""
+
+    session.install(".", "sphinx", "sphinx-autodoc-typehints")
+    session.run("sphinx-build", "docs", "docs/_build")
+
+
+@session
 def cleanup(session: Session) -> None:
     """Clean up generated files and directories."""
 
@@ -125,6 +133,12 @@ def cleanup(session: Session) -> None:
         "python",
         "-c",
         "import shutil; shutil.rmtree('./htmlcov', ignore_errors=True)",
+    )
+
+    session.run(
+        "python",
+        "-c",
+        "import shutil; shutil.rmtree('./docs/_build', ignore_errors=True)",
     )
 
     session.run(

@@ -267,6 +267,12 @@ Some other linters I brought in:
 
 I'm using [Black](https://pypi.org/project/black/) for this mainly because it's largely considered "uncompromising" and thus doesn't have a lot of configurability to work with. While formatting can be handled entirely separately from linting, I do feel that formatting is part of code quality. Thus I do use the [flake8-black](https://pypi.org/project/flake8-black/) plugin, which uses code BLK. This pluign will effectively generate linter warnings if it detects that the Black formatter would have to make changes.
 
+## Project Documentation
+
+I chose [Sphinx](https://www.sphinx-doc.org/en/master/) for the documentation mechanism because that seems to be pretty much the standard. I use the [Google docstring format](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings) for the project. This requires you to use [reStructured text](https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html) so I needed to have a guide to that.
+
+I wanted to use Sphinx to generate API documentation from the documentation strings and type annotations in the Quendor package. That requires using some Sphinx extensions. One is [autodoc](https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html) which lets Sphinx generate API documentation from the docstrings in the package modules. An extension called [napoleon](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html) is used to pre-process Google-style docstrings to the reStructuredText format. Finally, there's [sphinx-autodoc-typehints](https://pypi.org/project/sphinx-autodoc-typehints/). That uses the type annotations in the modules to document the types of function parameters and return values.
+
 ## Git Hooks
 
 I'm using [pre-commit](https://pre-commit.com/) for this. It's generally best to install this similarly to Nox:
