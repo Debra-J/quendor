@@ -156,21 +156,13 @@ def cleanup(session: Session) -> None:
     session.run(
         "python",
         "-c",
-        (
-            "import pathlib; "
-            "[p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') "
-            "if not str(p).startswith('.nox')]",
-        ),  # type: ignore
+        "import pathlib; [p.unlink() for p in pathlib.Path('.').rglob('*.py[co]') if not str(p).startswith('.nox')]",  # noqa: B950, E501
     )
 
     session.run(
         "python",
         "-c",
-        (
-            "import pathlib; "
-            "[p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') "
-            "if not str(p).startswith('.nox')]"
-        ),  # type: ignore
+        "import pathlib; [p.rmdir() for p in pathlib.Path('.').rglob('__pycache__') if not str(p).startswith('.nox')]",  # noqa: B950, E501
     )
 
 
