@@ -2,8 +2,10 @@
 
 import sys
 
+from quendor.cli import process_options
 
-def main() -> int:
+
+def main(args: list = None) -> int:
     """Entry point function for the Quendor interpreter."""
 
     python_version = f"{sys.version_info[0]}.{sys.version_info[1]}"
@@ -14,5 +16,10 @@ def main() -> int:
         sys.exit(1)
 
     print("\nQuendor Z-Machine Interpreter\n")
+
+    if not args:
+        args = sys.argv[1:]
+
+    process_options(args)
 
     return 0

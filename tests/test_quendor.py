@@ -21,7 +21,12 @@ def test_quendor_startup_banner(capsys: pytest.CaptureFixture) -> None:
 
     from quendor.__main__ import main
 
-    main()
+    with mock.patch.object(
+        sys,
+        "argv",
+        [""],
+    ):
+        main()
 
     captured = capsys.readouterr()
     result = captured.out
@@ -44,3 +49,21 @@ def test_bad_python_version(capsys: pytest.CaptureFixture) -> None:
 
     expect(pytest_wrapped_e.type).to(equal(SystemExit))
     expect(pytest_wrapped_e.value.code).to(equal(1))
+
+
+def test_quendor_cli_version(capsys: pytest.CaptureFixture) -> None:
+    """Quendor can report its version from the cli."""
+
+    import quendor
+    from quendor.__main__ import main
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main(["--version"])
+
+    expect(pytest_wrapped_e.type).to(equal(SystemExit))
+    expect(pytest_wrapped_e.value.code).to(equal(0))
+
+    captured = capsys.readouterr()
+    result = captured.out
+
+    expect(result).to(contain(f"Version: {quendor.__version__}"))
