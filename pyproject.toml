@@ -55,6 +55,8 @@ ignore_missing_imports = true
 [tool.poetry.dependencies]
 python = "^3.7"
 logzero = "^1.7.0"
+termcolor = "^1.1.0"
+colorama = "^0.4.4"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"

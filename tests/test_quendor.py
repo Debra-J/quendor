@@ -4,7 +4,7 @@ import os
 import sys
 from unittest import mock
 
-from expects import contain, equal, expect
+from expects import be_an, contain, equal, expect
 
 import pytest
 
@@ -130,10 +130,13 @@ def test_unable_to_locate_zcode(capsys: pytest.CaptureFixture) -> None:
     """Quendor informs the user if a zcode program could not be located."""
 
     from quendor.__main__ import main
+    from quendor.errors import UnableToLocateZcodeProgramError
 
-    main(["missing.z5"])
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        main(["missing.z5"])
 
-    captured = capsys.readouterr()
-    result = captured.out
+    error_type = pytest_wrapped_e.value.args[0]
+    error_message = "".join(pytest_wrapped_e.value.args[0].args)
 
-    expect(result).to(contain("Quendor was unable to find the zcode program"))
+    expect(error_type).to(be_an(UnableToLocateZcodeProgramError))
+    expect(error_message).to(contain("Quendor was unable to find the zcode program"))

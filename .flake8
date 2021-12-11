@@ -19,6 +19,9 @@ per-file-ignores =
     # Missing docstring in public module
     */__version__.py:D100
 
+    # '.format' used
+    src/quendor/errors.py:FS002
+
 ignore =
     # Missing type annotation for self in method
     ANN101

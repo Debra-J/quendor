@@ -5,6 +5,8 @@ from pathlib import Path
 
 from logzero import logger
 
+from quendor.errors import UnableToLocateZcodeProgramError
+
 
 class Program:
     """Abstraction for a zcode program."""
@@ -31,4 +33,6 @@ class Program:
 
                 return
 
-        print(f"Quendor was unable to find the zcode program.\n\nChecked in: {paths}")
+        raise UnableToLocateZcodeProgramError(
+            f"Quendor was unable to find the zcode program.\n\nChecked in: {paths}",
+        )
