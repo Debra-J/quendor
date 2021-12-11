@@ -111,3 +111,29 @@ def test_startup_no_zcode(capsys: pytest.CaptureFixture) -> None:
     result = captured.err
 
     expect(result).to(contain("the following arguments are required: zcode"))
+
+
+def test_locate_valid_zcode() -> None:
+    """Quendor can locate a valid zcode program."""
+
+    from quendor.program import Program
+
+    file_path = os.path.join(os.path.dirname(__file__), "./fixtures", "test_program.z5")
+
+    program = Program(file_path)
+    program._locate()
+
+    expect(program.file).to(contain("tests/./fixtures/test_program.z5"))
+
+
+def test_unable_to_locate_zcode(capsys: pytest.CaptureFixture) -> None:
+    """Quendor informs the user if a zcode program could not be located."""
+
+    from quendor.__main__ import main
+
+    main(["missing.z5"])
+
+    captured = capsys.readouterr()
+    result = captured.out
+
+    expect(result).to(contain("Quendor was unable to find the zcode program"))
