@@ -20,6 +20,12 @@ per-file-ignores =
     */__version__.py:D100
 
 ignore =
+    # Missing type annotation for self in method
+    ANN101
+
+    # Missing docstring in __init__
+    D107
+
     # No blank lines allowed after function doctring.
     D202
 

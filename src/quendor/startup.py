@@ -6,6 +6,21 @@ from logzero import logger
 
 from quendor.cli import process_options
 from quendor.logging import setup_logging
+from quendor.program import Program
+
+
+def setup_quendor(cli: dict) -> None:
+    """
+    Establish the data Quendor will operate on.
+
+    The goal of this function will be to make sure that Quendor is set up
+    with a viable zcode program that can be executed.
+
+    Args:
+        cli: the parsed command line arguments
+    """
+
+    Program(cli["zcode"])
 
 
 def main(args: list = None) -> int:
@@ -33,5 +48,7 @@ def main(args: list = None) -> int:
         logger.debug(f"Argument {i}: {'':>8}" + arg)
 
     logger.debug(f"Parsed arguments: {'':>2}" + f"{cli}")
+
+    setup_quendor(cli)
 
     return 0
