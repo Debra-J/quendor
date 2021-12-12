@@ -124,6 +124,7 @@ def test_locate_valid_zcode() -> None:
     program._locate()
 
     expect(program.file).to(contain("tests/./fixtures/test_program.z5"))
+    expect(program.data).to(be_an(bytes))
 
 
 def test_unable_to_locate_zcode(capsys: pytest.CaptureFixture) -> None:
@@ -140,3 +141,25 @@ def test_unable_to_locate_zcode(capsys: pytest.CaptureFixture) -> None:
 
     expect(error_type).to(be_an(UnableToLocateZcodeProgramError))
     expect(error_message).to(contain("Quendor was unable to find the zcode program"))
+
+
+def test_unable_to_access_zcode() -> None:
+    """Quendor informs the user if a zcode program could not be accessed."""
+
+    from quendor.program import Program
+    from quendor.errors import UnableToAccessZcodeProgramError
+
+    file_path = os.path.join(os.path.dirname(__file__), "./fixtures", "test_program.z5")
+
+    program = Program(file_path)
+    program._locate()
+    program.file = "badprogram.z5"
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        program._read_data()
+
+    error_type = pytest_wrapped_e.value.args[0]
+    error_message = "".join(pytest_wrapped_e.value.args[0].args)
+
+    expect(error_type).to(be_an(UnableToAccessZcodeProgramError))
+    expect(error_message).to(contain("Unable to access the zcode program"))

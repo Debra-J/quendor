@@ -38,5 +38,9 @@ class QuendorError(Exception):
         sys.exit(self)
 
 
+class UnableToAccessZcodeProgramError(QuendorError):
+    """Raise for a zcode program file that cannot be opened or read from."""
+
+
 class UnableToLocateZcodeProgramError(QuendorError):
     """Raise for a zcode program file that cannot be located."""
