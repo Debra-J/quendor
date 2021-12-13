@@ -86,7 +86,7 @@ def typechecking(session: Session) -> None:
     """Run type checks (using mypy)."""
 
     args = session.posargs or locations
-    session.install("mypy")
+    session.install("types-colorama", "mypy")
     session.run("mypy", "--install-types", "--non-interactive", *args)
 
 

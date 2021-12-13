@@ -25,6 +25,8 @@ classifiers = [
 
 [tool.poetry.scripts]
 quendor = "quendor.__main__:main"
+quend = "quendor.scripts.downloader:main"
+qdownloader = "quendor.scripts.downloader:main"
 
 [tool.pytest.ini_options]
 spec_test_format = "{result} {docstring_summary}"
@@ -57,6 +59,7 @@ python = "^3.7"
 logzero = "^1.7.0"
 termcolor = "^1.1.0"
 colorama = "^0.4.4"
+requests = "^2.26.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.12b0"

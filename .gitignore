@@ -1,3 +1,9 @@
+# Quendor generated
+resources/zcode/
+resources/ztools/
+resources/zsource/
+resources/zcheckers/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
