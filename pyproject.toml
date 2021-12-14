@@ -27,6 +27,8 @@ classifiers = [
 quendor = "quendor.__main__:main"
 quend = "quendor.scripts.downloader:main"
 qdownloader = "quendor.scripts.downloader:main"
+quena = "quendor.scripts.analyzer:main"
+qanalyzer = "quendor.scripts.analyzer:main"
 
 [tool.pytest.ini_options]
 spec_test_format = "{result} {docstring_summary}"
