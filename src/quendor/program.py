@@ -8,6 +8,7 @@ from logzero import logger
 from quendor.errors import (
     UnableToAccessZcodeProgramError,
     UnableToLocateZcodeProgramError,
+    UnsupportedZcodeProgramTypeError,
 )
 
 
@@ -52,6 +53,7 @@ class Program:
         """
 
         self._read_data()
+        self._read_format()
 
     def _read_data(self) -> None:
         """Open a program file and read binary contents."""
@@ -63,3 +65,30 @@ class Program:
             raise UnableToAccessZcodeProgramError(
                 f"Unable to access the zcode program: {self.file}",
             ) from exc
+
+    def _read_format(self) -> None:
+        """
+        Read the format of program file.
+
+        This method will initially read the first four bytes. This will be
+        enough to get the format for any valid program file. If the file is
+        a blorb file then those first four bytes will indicate a group ID.
+        If the file is an unblorbed zcode program then the first byte will
+        indicatea Z-Machine version. However, the first byte will always
+        indicate the version, even for a blorbed zcode program. So it's
+        necessary to determine what specific format is being dealt with.
+
+        Currently Quendor will not handle Glulx files at all.
+
+        Raises:
+            UnsupportedZcodeProgramTypeError: if a Glulx progam is loaded
+        """
+
+        format_id = self.data[0:4]
+
+        # Rule out Glulx right away since Quendor doesn't support it.
+
+        if format_id.decode("latin-1").upper() == "GLUL":
+            raise UnsupportedZcodeProgramTypeError(
+                "Quendor cannot interpret Glulx files.",
+            )

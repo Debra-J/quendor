@@ -163,3 +163,29 @@ def test_unable_to_access_zcode() -> None:
 
     expect(error_type).to(be_an(UnableToAccessZcodeProgramError))
     expect(error_message).to(contain("Unable to access the zcode program"))
+
+
+def test_glulx_files_unsupported() -> None:
+    """Quendor reports an error if a Glulx program is loaded."""
+
+    from quendor.__main__ import main
+    from quendor.errors import UnsupportedZcodeProgramTypeError
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "./fixtures",
+        "test_program.ulx",
+    )
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e, mock.patch.object(
+        sys,
+        "argv",
+        [],
+    ):
+        main([file_path])
+
+    error_type = pytest_wrapped_e.value.args[0]
+    error_message = "".join(pytest_wrapped_e.value.args[0].args)
+
+    expect(error_type).to(be_an(UnsupportedZcodeProgramTypeError))
+    expect(error_message).to(contain("Quendor cannot interpret Glulx files"))

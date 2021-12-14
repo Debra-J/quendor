@@ -44,3 +44,7 @@ class UnableToAccessZcodeProgramError(QuendorError):
 
 class UnableToLocateZcodeProgramError(QuendorError):
     """Raise for a zcode program file that cannot be located."""
+
+
+class UnsupportedZcodeProgramTypeError(QuendorError):
+    """Raise for a zcode program that cannot be interpreted."""
