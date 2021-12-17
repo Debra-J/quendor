@@ -111,3 +111,10 @@ class Program:
                 self.format = "BLORB"
                 logger.debug(f"zcode file format: {self.format}")
                 return
+
+        # If we got to this point, we likely have an unblorbed zcode file.
+
+        if format_id[0] >= 1 and format_id[0] <= 8:
+            self.format = "ZCODE"
+            logger.debug(f"zcode file format: {self.format}")
+            return

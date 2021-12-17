@@ -233,3 +233,17 @@ def test_blorb_format_recognized() -> None:
     program._read_memory()
 
     expect(program.format).to(equal("BLORB"))
+
+
+def test_unblorbed_zcode_format_recognized() -> None:
+    """Quendor recognizes an unblorbed zcode program."""
+
+    from quendor.program import Program
+
+    file_path = os.path.join(os.path.dirname(__file__), "./fixtures", "test_program.z5")
+
+    program = Program(file_path)
+    program._locate()
+    program._read_memory()
+
+    expect(program.format).to(equal("ZCODE"))
