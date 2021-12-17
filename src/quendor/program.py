@@ -20,6 +20,7 @@ class Program:
         self._program: str = program
         self.file: str = ""
         self.data: bytes = b""
+        self.format: str = ""
 
         self._locate()
         self._read_memory()
@@ -106,3 +107,7 @@ class Program:
                     "Quendor did not find an IFRS format type."
                     + f"\n\nFormat found was: {ifrs_id!r}",
                 )
+            else:
+                self.format = "BLORB"
+                logger.debug(f"zcode file format: {self.format}")
+                return

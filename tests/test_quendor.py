@@ -215,3 +215,21 @@ def test_unable_to_find_ifrs_format() -> None:
 
     expect(error_type).to(be_an(InvalidZcodeProgramFormatError))
     expect(error_message).to(contain("Quendor did not find an IFRS format type"))
+
+
+def test_blorb_format_recognized() -> None:
+    """Quendor recognizes a blorbed zcode program."""
+
+    from quendor.program import Program
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "./fixtures",
+        "test_program.zblorb",
+    )
+
+    program = Program(file_path)
+    program._locate()
+    program._read_memory()
+
+    expect(program.format).to(equal("BLORB"))
