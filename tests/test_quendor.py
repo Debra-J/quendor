@@ -189,3 +189,29 @@ def test_glulx_files_unsupported() -> None:
 
     expect(error_type).to(be_an(UnsupportedZcodeProgramTypeError))
     expect(error_message).to(contain("Quendor cannot interpret Glulx files"))
+
+
+def test_unable_to_find_ifrs_format() -> None:
+    """Quendor reports if a IFF file type is not IFRS."""
+
+    from quendor.__main__ import main
+    from quendor.errors import InvalidZcodeProgramFormatError
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "./fixtures",
+        "test_program.aif",
+    )
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e, mock.patch.object(
+        sys,
+        "argv",
+        [],
+    ):
+        main([file_path])
+
+    error_type = pytest_wrapped_e.value.args[0]
+    error_message = "".join(pytest_wrapped_e.value.args[0].args)
+
+    expect(error_type).to(be_an(InvalidZcodeProgramFormatError))
+    expect(error_message).to(contain("Quendor did not find an IFRS format type"))

@@ -44,3 +44,6 @@ ignore =
 
     # Subprocess call - check for execution of untrusted input.
     S603
+
+    # line break before binary operator
+    W503

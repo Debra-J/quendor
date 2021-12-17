@@ -38,6 +38,10 @@ class QuendorError(Exception):
         sys.exit(self)
 
 
+class InvalidZcodeProgramFormatError(QuendorError):
+    """Raise for a program with an non-IFRS format."""
+
+
 class UnableToAccessZcodeProgramError(QuendorError):
     """Raise for a zcode program file that cannot be opened or read from."""
 

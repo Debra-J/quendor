@@ -6,6 +6,7 @@ from pathlib import Path
 from logzero import logger
 
 from quendor.errors import (
+    InvalidZcodeProgramFormatError,
     UnableToAccessZcodeProgramError,
     UnableToLocateZcodeProgramError,
     UnsupportedZcodeProgramTypeError,
@@ -82,6 +83,7 @@ class Program:
 
         Raises:
             UnsupportedZcodeProgramTypeError: if a Glulx progam is loaded
+            InvalidZcodeProgramFormatError: if invalid IFF program is loaded
         """
 
         format_id = self.data[0:4]
@@ -92,3 +94,15 @@ class Program:
             raise UnsupportedZcodeProgramTypeError(
                 "Quendor cannot interpret Glulx files.",
             )
+
+        # Determine if we have IFF file next and then determine if
+        # we have an interactive fiction type of IFF file.
+
+        if format_id.decode("latin-1") == "FORM":
+            ifrs_id = self.data[8:12]
+
+            if ifrs_id.decode("latin-1") != "IFRS":
+                raise InvalidZcodeProgramFormatError(
+                    "Quendor did not find an IFRS format type."
+                    + f"\n\nFormat found was: {ifrs_id!r}",
+                )
