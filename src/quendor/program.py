@@ -9,6 +9,7 @@ from quendor.errors import (
     InvalidZcodeProgramFormatError,
     UnableToAccessZcodeProgramError,
     UnableToLocateZcodeProgramError,
+    UnknownZCodeProgramFormatError,
     UnsupportedZcodeProgramTypeError,
 )
 
@@ -85,6 +86,7 @@ class Program:
         Raises:
             UnsupportedZcodeProgramTypeError: if a Glulx progam is loaded
             InvalidZcodeProgramFormatError: if invalid IFF program is loaded
+            UnknownZCodeProgramFormatError: if zcode or blorb format not found
         """
 
         format_id = self.data[0:4]
@@ -118,3 +120,7 @@ class Program:
             self.format = "ZCODE"
             logger.debug(f"zcode file format: {self.format}")
             return
+
+        raise UnknownZCodeProgramFormatError(
+            f"Quendor cannot determine the file format of {self.file}",
+        )

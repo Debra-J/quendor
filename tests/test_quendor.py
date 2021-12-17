@@ -247,3 +247,29 @@ def test_unblorbed_zcode_format_recognized() -> None:
     program._read_memory()
 
     expect(program.format).to(equal("ZCODE"))
+
+
+def test_unable_to_determine_format() -> None:
+    """Quendor informs the user if a valid format was not found."""
+
+    from quendor.__main__ import main
+    from quendor.errors import UnknownZCodeProgramFormatError
+
+    file_path = os.path.join(
+        os.path.dirname(__file__),
+        "./fixtures",
+        "test_program.txt",
+    )
+
+    with pytest.raises(SystemExit) as pytest_wrapped_e, mock.patch.object(
+        sys,
+        "argv",
+        [],
+    ):
+        main([file_path])
+
+    error_type = pytest_wrapped_e.value.args[0]
+    error_message = "".join(pytest_wrapped_e.value.args[0].args)
+
+    expect(error_type).to(be_an(UnknownZCodeProgramFormatError))
+    expect(error_message).to(contain("Quendor cannot determine the file format"))

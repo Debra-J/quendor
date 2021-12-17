@@ -50,5 +50,9 @@ class UnableToLocateZcodeProgramError(QuendorError):
     """Raise for a zcode program file that cannot be located."""
 
 
+class UnknownZCodeProgramFormatError(QuendorError):
+    """Raise for a zcode program with an undetermined format."""
+
+
 class UnsupportedZcodeProgramTypeError(QuendorError):
     """Raise for a zcode program that cannot be interpreted."""
